@@ -1,0 +1,38 @@
+{
+	"schemaVersion": 1,
+	"id": "hlmovement",
+	"version": "${version}",
+	"name": "Half-Life Movement",
+	"description": "Replaces player movement with a port of Half-Life 1's player physics: ground/air acceleration, friction, air-strafing, bunnyhopping, crouch-jumping, ladders, swimming and fall damage.",
+	"authors": [
+		"Me!"
+	],
+	"contact": {},
+	"license": "CC0-1.0",
+	"icon": "assets/hlmovement/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"com.hlmovement.HLMovement"
+		],
+		"client": [
+			"com.hlmovement.client.HLMovementClient"
+		],
+		"fabric-client-gametest": [
+			"com.hlmovement.client.test.HLClientGameTest"
+		]
+	},
+	"mixins": [
+		"hlmovement.mixins.json",
+		{
+			"config": "hlmovement.client.mixins.json",
+			"environment": "client"
+		}
+	],
+	"depends": {
+		"fabricloader": ">=0.19.5",
+		"minecraft": "~26.3",
+		"java": ">=25",
+		"fabric-api": "*"
+	}
+}

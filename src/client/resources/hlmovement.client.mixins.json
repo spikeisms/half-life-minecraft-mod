@@ -1,0 +1,24 @@
+{
+	"required": true,
+	"package": "com.hlmovement.client.mixin",
+	"compatibilityLevel": "JAVA_25",
+	"client": [
+		"AvatarRenderStateMixin",
+		"AvatarRendererMixin",
+		"CameraMixin",
+		"EntityAccessor",
+		"FirstPersonHandsMixin",
+		"LivingEntityAccessor",
+		"LivingEntityMixin",
+		"LivingEntityRendererMixin",
+		"LocalPlayerAccessor",
+		"LocalPlayerMixin",
+		"PlayerMixin"
+	],
+	"injectors": {
+		"defaultRequire": 1
+	},
+	"overwrites": {
+		"requireAnnotations": true
+	}
+}

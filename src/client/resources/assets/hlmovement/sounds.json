@@ -1,0 +1,379 @@
+{
+    "common.bodysplat":  {
+                             "sounds":  [
+                                            "hlmovement:common/bodysplat"
+                                        ],
+                             "subtitle":  "subtitles.entity.generic.big_fall"
+                         },
+    "player.pl_dirt1":  {
+                            "sounds":  [
+                                           "hlmovement:player/pl_dirt1"
+                                       ],
+                            "subtitle":  "subtitles.block.generic.footsteps"
+                        },
+    "player.pl_dirt2":  {
+                            "sounds":  [
+                                           "hlmovement:player/pl_dirt2"
+                                       ],
+                            "subtitle":  "subtitles.block.generic.footsteps"
+                        },
+    "player.pl_dirt3":  {
+                            "sounds":  [
+                                           "hlmovement:player/pl_dirt3"
+                                       ],
+                            "subtitle":  "subtitles.block.generic.footsteps"
+                        },
+    "player.pl_dirt4":  {
+                            "sounds":  [
+                                           "hlmovement:player/pl_dirt4"
+                                       ],
+                            "subtitle":  "subtitles.block.generic.footsteps"
+                        },
+    "player.pl_duct1":  {
+                            "sounds":  [
+                                           "hlmovement:player/pl_duct1"
+                                       ],
+                            "subtitle":  "subtitles.block.generic.footsteps"
+                        },
+    "player.pl_duct2":  {
+                            "sounds":  [
+                                           "hlmovement:player/pl_duct2"
+                                       ],
+                            "subtitle":  "subtitles.block.generic.footsteps"
+                        },
+    "player.pl_duct3":  {
+                            "sounds":  [
+                                           "hlmovement:player/pl_duct3"
+                                       ],
+                            "subtitle":  "subtitles.block.generic.footsteps"
+                        },
+    "player.pl_duct4":  {
+                            "sounds":  [
+                                           "hlmovement:player/pl_duct4"
+                                       ],
+                            "subtitle":  "subtitles.block.generic.footsteps"
+                        },
+    "player.pl_fallpain1":  {
+                                "sounds":  [
+                                               "hlmovement:player/pl_fallpain1"
+                                           ],
+                                "subtitle":  "subtitles.entity.player.hurt"
+                            },
+    "player.pl_fallpain2":  {
+                                "sounds":  [
+                                               "hlmovement:player/pl_fallpain2"
+                                           ],
+                                "subtitle":  "subtitles.entity.player.hurt"
+                            },
+    "player.pl_fallpain3":  {
+                                "sounds":  [
+                                               "hlmovement:player/pl_fallpain3"
+                                           ],
+                                "subtitle":  "subtitles.entity.player.hurt"
+                            },
+    "player.pl_grate1":  {
+                             "sounds":  [
+                                            "hlmovement:player/pl_grate1"
+                                        ],
+                             "subtitle":  "subtitles.block.generic.footsteps"
+                         },
+    "player.pl_grate2":  {
+                             "sounds":  [
+                                            "hlmovement:player/pl_grate2"
+                                        ],
+                             "subtitle":  "subtitles.block.generic.footsteps"
+                         },
+    "player.pl_grate3":  {
+                             "sounds":  [
+                                            "hlmovement:player/pl_grate3"
+                                        ],
+                             "subtitle":  "subtitles.block.generic.footsteps"
+                         },
+    "player.pl_grate4":  {
+                             "sounds":  [
+                                            "hlmovement:player/pl_grate4"
+                                        ],
+                             "subtitle":  "subtitles.block.generic.footsteps"
+                         },
+    "player.pl_jump1":  {
+                            "sounds":  [
+                                           "hlmovement:player/pl_jump1"
+                                       ],
+                            "subtitle":  "subtitles.block.generic.footsteps"
+                        },
+    "player.pl_jump2":  {
+                            "sounds":  [
+                                           "hlmovement:player/pl_jump2"
+                                       ],
+                            "subtitle":  "subtitles.block.generic.footsteps"
+                        },
+    "player.pl_jumpland2":  {
+                                "sounds":  [
+                                               "hlmovement:player/pl_jumpland2"
+                                           ],
+                                "subtitle":  "subtitles.block.generic.footsteps"
+                            },
+    "player.pl_ladder1":  {
+                              "sounds":  [
+                                             "hlmovement:player/pl_ladder1"
+                                         ],
+                              "subtitle":  "subtitles.block.generic.footsteps"
+                          },
+    "player.pl_ladder2":  {
+                              "sounds":  [
+                                             "hlmovement:player/pl_ladder2"
+                                         ],
+                              "subtitle":  "subtitles.block.generic.footsteps"
+                          },
+    "player.pl_ladder3":  {
+                              "sounds":  [
+                                             "hlmovement:player/pl_ladder3"
+                                         ],
+                              "subtitle":  "subtitles.block.generic.footsteps"
+                          },
+    "player.pl_ladder4":  {
+                              "sounds":  [
+                                             "hlmovement:player/pl_ladder4"
+                                         ],
+                              "subtitle":  "subtitles.block.generic.footsteps"
+                          },
+    "player.pl_metal1":  {
+                             "sounds":  [
+                                            "hlmovement:player/pl_metal1"
+                                        ],
+                             "subtitle":  "subtitles.block.generic.footsteps"
+                         },
+    "player.pl_metal2":  {
+                             "sounds":  [
+                                            "hlmovement:player/pl_metal2"
+                                        ],
+                             "subtitle":  "subtitles.block.generic.footsteps"
+                         },
+    "player.pl_metal3":  {
+                             "sounds":  [
+                                            "hlmovement:player/pl_metal3"
+                                        ],
+                             "subtitle":  "subtitles.block.generic.footsteps"
+                         },
+    "player.pl_metal4":  {
+                             "sounds":  [
+                                            "hlmovement:player/pl_metal4"
+                                        ],
+                             "subtitle":  "subtitles.block.generic.footsteps"
+                         },
+    "player.pl_pain2":  {
+                            "sounds":  [
+                                           "hlmovement:player/pl_pain2"
+                                       ],
+                            "subtitle":  "subtitles.entity.player.hurt"
+                        },
+    "player.pl_pain4":  {
+                            "sounds":  [
+                                           "hlmovement:player/pl_pain4"
+                                       ],
+                            "subtitle":  "subtitles.entity.player.hurt"
+                        },
+    "player.pl_pain5":  {
+                            "sounds":  [
+                                           "hlmovement:player/pl_pain5"
+                                       ],
+                            "subtitle":  "subtitles.entity.player.hurt"
+                        },
+    "player.pl_pain6":  {
+                            "sounds":  [
+                                           "hlmovement:player/pl_pain6"
+                                       ],
+                            "subtitle":  "subtitles.entity.player.hurt"
+                        },
+    "player.pl_pain7":  {
+                            "sounds":  [
+                                           "hlmovement:player/pl_pain7"
+                                       ],
+                            "subtitle":  "subtitles.entity.player.hurt"
+                        },
+    "player.pl_slosh1":  {
+                             "sounds":  [
+                                            "hlmovement:player/pl_slosh1"
+                                        ],
+                             "subtitle":  "subtitles.block.generic.footsteps"
+                         },
+    "player.pl_slosh2":  {
+                             "sounds":  [
+                                            "hlmovement:player/pl_slosh2"
+                                        ],
+                             "subtitle":  "subtitles.block.generic.footsteps"
+                         },
+    "player.pl_slosh3":  {
+                             "sounds":  [
+                                            "hlmovement:player/pl_slosh3"
+                                        ],
+                             "subtitle":  "subtitles.block.generic.footsteps"
+                         },
+    "player.pl_slosh4":  {
+                             "sounds":  [
+                                            "hlmovement:player/pl_slosh4"
+                                        ],
+                             "subtitle":  "subtitles.block.generic.footsteps"
+                         },
+    "player.pl_snow1":  {
+                            "sounds":  [
+                                           "hlmovement:player/pl_snow1"
+                                       ],
+                            "subtitle":  "subtitles.block.generic.footsteps"
+                        },
+    "player.pl_snow2":  {
+                            "sounds":  [
+                                           "hlmovement:player/pl_snow2"
+                                       ],
+                            "subtitle":  "subtitles.block.generic.footsteps"
+                        },
+    "player.pl_snow3":  {
+                            "sounds":  [
+                                           "hlmovement:player/pl_snow3"
+                                       ],
+                            "subtitle":  "subtitles.block.generic.footsteps"
+                        },
+    "player.pl_snow4":  {
+                            "sounds":  [
+                                           "hlmovement:player/pl_snow4"
+                                       ],
+                            "subtitle":  "subtitles.block.generic.footsteps"
+                        },
+    "player.pl_step1":  {
+                            "sounds":  [
+                                           "hlmovement:player/pl_step1"
+                                       ],
+                            "subtitle":  "subtitles.block.generic.footsteps"
+                        },
+    "player.pl_step2":  {
+                            "sounds":  [
+                                           "hlmovement:player/pl_step2"
+                                       ],
+                            "subtitle":  "subtitles.block.generic.footsteps"
+                        },
+    "player.pl_step3":  {
+                            "sounds":  [
+                                           "hlmovement:player/pl_step3"
+                                       ],
+                            "subtitle":  "subtitles.block.generic.footsteps"
+                        },
+    "player.pl_step4":  {
+                            "sounds":  [
+                                           "hlmovement:player/pl_step4"
+                                       ],
+                            "subtitle":  "subtitles.block.generic.footsteps"
+                        },
+    "player.pl_step4b":  {
+                             "sounds":  [
+                                            "hlmovement:player/pl_step4b"
+                                        ],
+                             "subtitle":  "subtitles.block.generic.footsteps"
+                         },
+    "player.pl_swim1":  {
+                            "sounds":  [
+                                           "hlmovement:player/pl_swim1"
+                                       ],
+                            "subtitle":  "subtitles.entity.generic.swim"
+                        },
+    "player.pl_swim2":  {
+                            "sounds":  [
+                                           "hlmovement:player/pl_swim2"
+                                       ],
+                            "subtitle":  "subtitles.entity.generic.swim"
+                        },
+    "player.pl_swim3":  {
+                            "sounds":  [
+                                           "hlmovement:player/pl_swim3"
+                                       ],
+                            "subtitle":  "subtitles.entity.generic.swim"
+                        },
+    "player.pl_swim4":  {
+                            "sounds":  [
+                                           "hlmovement:player/pl_swim4"
+                                       ],
+                            "subtitle":  "subtitles.entity.generic.swim"
+                        },
+    "player.pl_tile1":  {
+                            "sounds":  [
+                                           "hlmovement:player/pl_tile1"
+                                       ],
+                            "subtitle":  "subtitles.block.generic.footsteps"
+                        },
+    "player.pl_tile2":  {
+                            "sounds":  [
+                                           "hlmovement:player/pl_tile2"
+                                       ],
+                            "subtitle":  "subtitles.block.generic.footsteps"
+                        },
+    "player.pl_tile3":  {
+                            "sounds":  [
+                                           "hlmovement:player/pl_tile3"
+                                       ],
+                            "subtitle":  "subtitles.block.generic.footsteps"
+                        },
+    "player.pl_tile4":  {
+                            "sounds":  [
+                                           "hlmovement:player/pl_tile4"
+                                       ],
+                            "subtitle":  "subtitles.block.generic.footsteps"
+                        },
+    "player.pl_tile5":  {
+                            "sounds":  [
+                                           "hlmovement:player/pl_tile5"
+                                       ],
+                            "subtitle":  "subtitles.block.generic.footsteps"
+                        },
+    "player.pl_wade1":  {
+                            "sounds":  [
+                                           "hlmovement:player/pl_wade1"
+                                       ],
+                            "subtitle":  "subtitles.entity.generic.splash"
+                        },
+    "player.pl_wade2":  {
+                            "sounds":  [
+                                           "hlmovement:player/pl_wade2"
+                                       ],
+                            "subtitle":  "subtitles.entity.generic.splash"
+                        },
+    "player.pl_wade3":  {
+                            "sounds":  [
+                                           "hlmovement:player/pl_wade3"
+                                       ],
+                            "subtitle":  "subtitles.entity.generic.splash"
+                        },
+    "player.pl_wade4":  {
+                            "sounds":  [
+                                           "hlmovement:player/pl_wade4"
+                                       ],
+                            "subtitle":  "subtitles.entity.generic.splash"
+                        },
+    "player.pl_wood1":  {
+                            "sounds":  [
+                                           "hlmovement:player/pl_wood1"
+                                       ],
+                            "subtitle":  "subtitles.block.generic.footsteps"
+                        },
+    "player.pl_wood2":  {
+                            "sounds":  [
+                                           "hlmovement:player/pl_wood2"
+                                       ],
+                            "subtitle":  "subtitles.block.generic.footsteps"
+                        },
+    "player.pl_wood3":  {
+                            "sounds":  [
+                                           "hlmovement:player/pl_wood3"
+                                       ],
+                            "subtitle":  "subtitles.block.generic.footsteps"
+                        },
+    "player.pl_wood4":  {
+                            "sounds":  [
+                                           "hlmovement:player/pl_wood4"
+                                       ],
+                            "subtitle":  "subtitles.block.generic.footsteps"
+                        },
+    "common.wpn_hudon": {"sounds": ["hlmovement:common/wpn_hudon"]},
+    "common.wpn_moveselect": {"sounds": ["hlmovement:common/wpn_moveselect"]},
+    "common.wpn_select": {"sounds": ["hlmovement:common/wpn_select"]},
+    "common.wpn_hudoff": {"sounds": ["hlmovement:common/wpn_hudoff"]},
+    "common.wpn_denyselect": {"sounds": ["hlmovement:common/wpn_denyselect"]}
+}

@@ -1,0 +1,15 @@
+{
+	"key.category.hlmovement.main": "Half-Life Movement",
+	"key.hlmovement.walk": "Walk (+speed)",
+	"key.hlmovement.speedometer": "Toggle Speedometer",
+	"key.hlmovement.settings": "Half-Life Settings",
+	"key.hlmovement.mode": "Toggle Half-Life Mode",
+	"hlmovement.mode.on": "Half-Life mode on",
+	"hlmovement.mode.off": "Half-Life mode off",
+	"hlmovement.settings.title": "Half-Life Settings",
+	"hlmovement.settings.mode": "Half-Life Mode",
+	"hlmovement.settings.hud_scale": "HUD Scale: %sx",
+	"hlmovement.settings.crosshair_size": "Crosshair Size: %s px",
+	"hlmovement.settings.speedometer": "Speedometer",
+	"hlmovement.settings.reset": "Reset to Defaults"
+}

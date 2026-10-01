@@ -1,0 +1,16 @@
+{
+	"required": true,
+	"package": "com.hlmovement.mixin",
+	"compatibilityLevel": "JAVA_25",
+	"mixins": [
+		"AvatarMixin",
+		"LivingEntityFallDamageMixin",
+		"PlayerMixin"
+	],
+	"injectors": {
+		"defaultRequire": 1
+	},
+	"overwrites": {
+		"requireAnnotations": true
+	}
+}
