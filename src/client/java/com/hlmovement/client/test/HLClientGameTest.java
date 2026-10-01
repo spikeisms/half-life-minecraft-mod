@@ -57,7 +57,10 @@ public class HLClientGameTest implements FabricClientGameTest {
 			context.runOnClient(mc -> mc.getSoundManager().addListener(listener));
 
 			// The mode is remembered between runs; start in it.
-			context.runOnClient(mc -> HLModeClient.set(mc, true));
+			context.runOnClient(mc -> {
+				HLModeClient.setCharacter(mc, "scientist");
+				HLModeClient.set(mc, true);
+			});
 			context.waitTicks(10);
 			check(server.computeOnServer(s -> HLMode.isOn(s.getPlayerList().getPlayers().getFirst())), "server knows we're in Half-Life mode");
 
@@ -282,6 +285,18 @@ public class HLClientGameTest implements FabricClientGameTest {
 			context.waitTicks(2);
 			HLMovement.LOGGER.info("[HL TEST] screenshot: {}", context.takeScreenshot("hl_model_swing"));
 			context.waitTicks(10);
+
+			// The character picker: the server relays our choice, and the model changes.
+			for (String character : new String[]{"gordon", "barney"}) {
+				context.runOnClient(mc -> HLModeClient.setCharacter(mc, character));
+				context.waitTicks(10);
+				String onServer = server.computeOnServer(s -> HLMode.character(s.getPlayerList().getPlayers().getFirst()));
+				check(character.equals(onServer), "server knows we're playing as " + character + " (it has " + onServer + ")");
+				HLMovement.LOGGER.info("[HL TEST] screenshot: {}", context.takeScreenshot("hl_model_" + character));
+			}
+
+			context.runOnClient(mc -> HLModeClient.setCharacter(mc, "scientist"));
+			context.waitTicks(5);
 			server.runCommand("tp @a 0.5 " + FLOOR + " 0.5 0 -45");
 			context.waitTicks(10);
 			HLMovement.LOGGER.info("[HL TEST] screenshot: {}", context.takeScreenshot("hl_model_look_up"));

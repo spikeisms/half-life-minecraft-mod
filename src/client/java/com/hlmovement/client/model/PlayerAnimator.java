@@ -50,6 +50,7 @@ public final class PlayerAnimator {
 
 	private static final Map<Avatar, PlayerAnimator> STATES = new WeakHashMap<>();
 
+	private @Nullable HLModel lastModel;
 	private float lastTime = Float.NaN;
 	private boolean wasOnGround = true;
 	private boolean wasRising;
@@ -74,6 +75,13 @@ public final class PlayerAnimator {
 	}
 
 	private float[] advance(HLModel model, Avatar entity, float partialTicks) {
+		if (model != lastModel) {
+			// A different character has a different skeleton: nothing to blend from.
+			lastModel = model;
+			pose = null;
+			blendFrom = null;
+		}
+
 		float time = entity.tickCount + partialTicks;
 		float ticks = Float.isNaN(lastTime) ? 0.0F : Math.clamp(time - lastTime, 0.0F, 5.0F);
 		float seconds = ticks / 20.0F;
@@ -191,16 +199,19 @@ public final class PlayerAnimator {
 
 	/**
 	 * Turns the upper body to the view. Yaw is Half-Life's four spine bone controllers, a quarter of the
-	 * twist each; the scientist has three spine bones, so the head takes the last quarter. Half-Life
+	 * twist each; the scientist NPC has three spine bones, so its head takes the last quarter. Half-Life
 	 * leans the whole model by a third of the pitch; here the spine, neck and head bend instead.
 	 */
 	private static void aim(HLModel model, float[] bones, float twist, float pitch) {
-		String[] chain = {"Bip Spine", "Bip Spine1", "Bip Spine2", "Bip Neck", "Bip Head"};
-		float[] yawShare = {0.25F, 0.25F, 0.25F, 0.0F, 0.25F};
-		float[] pitchShare = {SPINE_PITCH, SPINE_PITCH, SPINE_PITCH, NECK_PITCH, HEAD_PITCH};
+		boolean fourSpines = model.bone("Bip Spine3") >= 0;
+		String[] chain = {"Bip Spine", "Bip Spine1", "Bip Spine2", "Bip Spine3", "Bip Neck", "Bip Head"};
+		float[] yawShare = {0.25F, 0.25F, 0.25F, 0.25F, 0.0F, fourSpines ? 0.0F : 0.25F};
+		float spinePitch = SPINE_PITCH * (fourSpines ? 0.75F : 1.0F);
+		float[] pitchShare = {spinePitch, spinePitch, spinePitch, spinePitch, NECK_PITCH, HEAD_PITCH};
 		float turned = 0.0F;
 		for (int i = 0; i < chain.length; i++) {
 			int bone = model.bone(chain[i]);
+			if (bone < 0) continue;
 			// Minecraft yaw runs clockwise seen from above, and positive pitch looks down.
 			model.rotate(bones, bone, 0.0F, 1.0F, 0.0F, -twist * yawShare[i] * Mth.DEG_TO_RAD);
 			turned += twist * yawShare[i];

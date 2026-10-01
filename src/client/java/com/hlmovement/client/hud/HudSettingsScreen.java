@@ -1,6 +1,7 @@
 package com.hlmovement.client.hud;
 
 import com.hlmovement.HLConfig;
+import com.hlmovement.HLMode;
 import com.hlmovement.client.HLModeClient;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.AbstractSliderButton;
@@ -15,7 +16,7 @@ import java.util.function.DoubleFunction;
 import java.util.function.DoubleSupplier;
 
 /**
- * In-game settings: the Half-Life mode switch and the personal HUD options. The world and HUD stay visible behind it, so changes
+ * In-game settings: the Half-Life mode switch, your character, and the personal HUD options. The world and HUD stay visible behind it, so changes
  * preview live; everything is saved to config/hlmovement.properties when the screen closes.
  */
 public class HudSettingsScreen extends Screen {
@@ -41,13 +42,18 @@ public class HudSettingsScreen extends Screen {
 
 	@Override
 	protected void init() {
-		// Title, the mode switch and HUD scale above the crosshair, everything else below it.
+		// Title, the mode switch, character and HUD scale above the crosshair, everything else below it.
 		int x = this.width / 2 - WIDTH / 2;
-		int y = this.height / 2 - CENTER_GAP - 20 - ROW;
+		int y = this.height / 2 - CENTER_GAP - 20 - 2 * ROW;
 		this.topPanelTop = y - 20;
 
 		this.addRenderableWidget(CycleButton.onOffBuilder(HLConfig.hlMode)
 			.create(x, y, WIDTH, 20, Component.translatable("hlmovement.settings.mode"), (button, value) -> HLModeClient.set(this.minecraft, value)));
+		y += ROW;
+
+		this.addRenderableWidget(CycleButton.<String>builder(character -> Component.translatable("hlmovement.character." + character), HLConfig.character)
+			.withValues(HLMode.CHARACTERS)
+			.create(x, y, WIDTH, 20, Component.translatable("hlmovement.settings.character"), (button, value) -> HLModeClient.setCharacter(this.minecraft, value)));
 		y += ROW;
 
 		this.addRenderableWidget(new Slider(x, y, WIDTH,

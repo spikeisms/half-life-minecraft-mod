@@ -22,9 +22,10 @@ public abstract class LivingEntityRendererMixin {
 	private boolean hlmovement$hlPlayerModel(SubmitNodeCollector collector, Model<?> model, Object state, PoseStack poseStack, RenderType renderType,
 		int light, int overlay, int color, UvMapping uvMapping, int outlineColor) {
 		if (!((Object) this instanceof AvatarRenderer<?>) || !(state instanceof AvatarRenderState avatar)) return true;
-		float[] bones = PlayerModels.bones(avatar);
-		HLModel hlModel = bones == null ? null : HLModel.get(PlayerModels.MODEL);
-		if (hlModel == null) return true;
+		PlayerModels.Posed posed = PlayerModels.posed(avatar);
+		if (posed == null) return true;
+		HLModel hlModel = posed.model();
+		float[] bones = posed.bones();
 
 		boolean translucent = color >>> 24 != 0xFF;
 		if (avatar.isInvisible && !translucent) return false; // only the glowing outline would show; not supported yet

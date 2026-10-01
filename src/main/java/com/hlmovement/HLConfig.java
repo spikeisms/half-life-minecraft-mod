@@ -27,7 +27,7 @@ import java.util.Set;
 public final class HLConfig {
 	private static final int CURRENT_VERSION = 2;
 	/** Personal settings that are never taken from the server. */
-	private static final Set<String> CLIENT_ONLY = Set.of("configVersion", "hlMode", "showSpeedometer", "hudScale", "crosshairSize");
+	private static final Set<String> CLIENT_ONLY = Set.of("configVersion", "hlMode", "character", "showSpeedometer", "hudScale", "crosshairSize");
 
 	public static int configVersion = CURRENT_VERSION;
 
@@ -69,6 +69,8 @@ public final class HLConfig {
 
 	/** Play in Half-Life mode (movement, HUD, sounds, scientist model). Personal; toggled in game. */
 	public static boolean hlMode = true;
+	/** Who you are in Half-Life mode: scientist, gordon or barney. Personal; chosen in the settings menu. */
+	public static String character = HLMode.DEFAULT_CHARACTER;
 
 	// --- Behaviour switches ---
 	/** PM_PreventMegaBunnyJumping: jumping above 1.7x maxspeed scales you down to 1.105x. */
@@ -127,6 +129,7 @@ public final class HLConfig {
 		}
 
 		configVersion = CURRENT_VERSION;
+		character = HLMode.validCharacter(character);
 		substeps = Math.max(1, Math.min(substeps, 50));
 		unitsPerBlock = Math.max(1.0, unitsPerBlock);
 		// Rewrite so newly added keys show up in the file.
@@ -155,7 +158,7 @@ public final class HLConfig {
 
 			try (Writer writer = Files.newBufferedWriter(file)) {
 				writer.write("# Half-Life movement settings. Speeds/distances are in GoldSrc units.\n");
-				writer.write("# On a server, the server's values are used instead (except hlMode, showSpeedometer, hudScale and crosshairSize).\n");
+				writer.write("# On a server, the server's values are used instead (except hlMode, character, showSpeedometer, hudScale and crosshairSize).\n");
 				for (Field field : fields()) {
 					writer.write(field.getName() + "=" + field.get(null) + "\n");
 				}

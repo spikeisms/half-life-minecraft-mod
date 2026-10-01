@@ -19,7 +19,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public abstract class AvatarRendererMixin {
 	@Inject(method = "shouldRenderLayers(Lnet/minecraft/client/renderer/entity/state/AvatarRenderState;)Z", at = @At("HEAD"), cancellable = true)
 	private void hlmovement$noLayers(AvatarRenderState state, CallbackInfoReturnable<Boolean> cir) {
-		if (PlayerModels.bones(state) != null) cir.setReturnValue(false);
+		if (PlayerModels.posed(state) != null) cir.setReturnValue(false);
 	}
 
 	@Inject(method = "extractRenderState(Lnet/minecraft/world/entity/Avatar;Lnet/minecraft/client/renderer/entity/state/AvatarRenderState;F)V", at = @At("TAIL"))

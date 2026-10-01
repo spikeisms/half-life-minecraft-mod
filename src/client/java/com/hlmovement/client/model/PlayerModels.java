@@ -12,9 +12,8 @@ import net.minecraft.world.entity.player.Player;
 import org.joml.Matrix4f;
 import org.jspecify.annotations.Nullable;
 
-/** Which Half-Life model a player is drawn with: a scientist for everyone in Half-Life mode, for now. */
+/** Draws players in Half-Life mode as the character they chose (HLMode.CHARACTERS). */
 public final class PlayerModels {
-	public static final String MODEL = "scientist";
 	/** From the hand bone (the wrist) along the hand to the middle of the grip, in blocks. */
 	private static final float GRIP = 0.09F;
 	/** How far down Minecraft's arm (from the shoulder) a held item sits: ItemInHandLayer's 10 pixels. */
@@ -22,24 +21,25 @@ public final class PlayerModels {
 
 	private PlayerModels() {}
 
-	/**
-	 * A player's animated bone matrices this frame, carried on their render state (see AvatarRenderStateMixin).
-	 * Null for anyone drawn as their normal Minecraft self.
-	 */
-	public interface PoseHolder {
-		float @Nullable [] hlmovement$bones();
+	/** A player's Half-Life model and its animated bone matrices this frame. */
+	public record Posed(HLModel model, float[] bones) {}
 
-		void hlmovement$setBones(float @Nullable [] bones);
+	/** Carries {@link Posed} on a player's render state (see AvatarRenderStateMixin). */
+	public interface PoseHolder {
+		@Nullable Posed hlmovement$posed();
+
+		void hlmovement$setPosed(@Nullable Posed posed);
 	}
 
-	public static float @Nullable [] bones(AvatarRenderState state) {
-		return ((PoseHolder) state).hlmovement$bones();
+	/** Null for anyone drawn as their normal Minecraft self. */
+	public static @Nullable Posed posed(AvatarRenderState state) {
+		return ((PoseHolder) state).hlmovement$posed();
 	}
 
 	/** Called while the renderer copies a player's state for this frame. */
 	public static void extract(Avatar entity, AvatarRenderState state, float partialTicks) {
-		HLModel model = entity instanceof Player player && HLMode.isOn(player) ? HLModel.get(MODEL) : null;
-		((PoseHolder) state).hlmovement$setBones(model == null ? null : PlayerAnimator.update(model, entity, partialTicks));
+		HLModel model = entity instanceof Player player && HLMode.isOn(player) ? HLModel.get(HLMode.character(player)) : null;
+		((PoseHolder) state).hlmovement$setPosed(model == null ? null : new Posed(model, PlayerAnimator.update(model, entity, partialTicks)));
 	}
 
 	/** Draws what the player is holding, in the Half-Life model's hands. */

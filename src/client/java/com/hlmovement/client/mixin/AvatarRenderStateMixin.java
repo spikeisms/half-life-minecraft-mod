@@ -6,19 +6,19 @@ import org.jspecify.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 
-/** Carries a player's Half-Life bone matrices from extraction to drawing. */
+/** Carries a player's Half-Life model and pose from extraction to drawing. */
 @Mixin(AvatarRenderState.class)
 public abstract class AvatarRenderStateMixin implements PlayerModels.PoseHolder {
 	@Unique
-	private float @Nullable [] hlmovement$bones;
+	private PlayerModels.@Nullable Posed hlmovement$posed;
 
 	@Override
-	public float @Nullable [] hlmovement$bones() {
-		return hlmovement$bones;
+	public PlayerModels.@Nullable Posed hlmovement$posed() {
+		return hlmovement$posed;
 	}
 
 	@Override
-	public void hlmovement$setBones(float @Nullable [] bones) {
-		hlmovement$bones = bones;
+	public void hlmovement$setPosed(PlayerModels.@Nullable Posed posed) {
+		hlmovement$posed = posed;
 	}
 }

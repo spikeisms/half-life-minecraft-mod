@@ -86,7 +86,7 @@ whichever of the 25th anniversary update's 640/1280/2560 sprite sets is sharpest
 - **Crosshair**: the 9mm handgun's, always `crosshairSize` screen pixels (default 32) whatever the window
   size or GUI scale. The visible marks fill about half of that.
 
-**Settings** (default key **H**): the Half-Life mode switch, HUD scale, crosshair size and the speedometer,
+**Settings** (default key **H**): the Half-Life mode switch, your character, HUD scale, crosshair size and the speedometer,
 with the HUD and crosshair left visible around the menu so changes preview live. Saved to your config when
 it closes.
 
@@ -96,9 +96,11 @@ a Half-Life install with `java tools/SprConvert.java "<Half-Life>/valve" src/cli
 
 ## Player model
 
-Every player in Half-Life mode is drawn as Half-Life's original scientist instead of their skin, scaled so he's
-exactly as tall as the 1.8-block hitbox, and animated with the deathmatch player animations the way
-Half-Life's player code does it (`CBasePlayer::SetAnimation`, `StudioProcessGait`):
+Every player in Half-Life mode is drawn as a Half-Life character instead of their skin: the original
+**scientist**, **Gordon** or **Barney**, chosen with the Character button in the settings menu (**H**). The choice
+is personal (`character` in your config), remembered between sessions, and sent through the server so
+everyone sees it. Each model is scaled to exactly the 1.8-block hitbox and animated with the deathmatch
+player animations the way Half-Life's player code does it (`CBasePlayer::SetAnimation`, `StudioProcessGait`):
 
 - The body plays `idle` (one arm held out), or `crouch_idle` while ducked (1.05 blocks, near the 0.9-block
   duck hull).
@@ -126,6 +128,10 @@ The model is converted from a Half-Life install with `tools/MdlConvert.java` (Go
 mesh, palette textures as PNGs, and each sequence as per-frame bone rotations). With `$dm` as
 `<Half-Life>/valve/models/player/scientist/scientist.mdl`:
 `java tools/MdlConvert.java "<Half-Life>/valve/models/scientist.mdl" src/client/resources/assets/hlmovement scientist 1.8 0,0,0 "idle=$dm#idle" "walk=$dm#walk2handed" "run=$dm#run2" "jump=$dm#jump" "crouch_idle=$dm#crouch_idle" "crawl=$dm#crawl"`
+Gordon and Barney are the deathmatch player models, which carry these animations themselves (submodel 1 is
+the high-detail mesh); with `<name>` as `gordon` or `barney`:
+`java tools/MdlConvert.java "<Half-Life>/valve/models/player/<name>/<name>.mdl" src/client/resources/assets/hlmovement <name> 1.8 1 idle=idle walk=walk2handed run=run2 jump=jump crouch_idle=crouch_idle crawl=crawl`
+Adding a character is converting its model and adding its name to `HLMode.CHARACTERS` and the language file.
 (`--list` instead of the output arguments prints a model's bones, bodyparts, textures and sequences). The
 `0,0,0` picks a submodel per bodypart: here the "nerd" head and no needle. Each `name=sequence` is one
 animation the mod looks up by name; `other.mdl#sequence` borrows it from another biped model.
@@ -144,7 +150,7 @@ The **server's** `config/hlmovement.properties` holds every cvar above plus beha
 `disableSneakEdgeSafety`, `multiplayerFootsteps`, `spectatorMaxSpeed`, `substeps`, `unitsPerBlock`, ...).
 It's sent to every client on join, so everyone in Half-Life mode simulates identical physics. A client's own
 file only matters in singleplayer, except the personal settings, which are never taken from the server:
-`hlMode`, `hudScale`, `crosshairSize` and `showSpeedometer`.
+`hlMode`, `character`, `hudScale`, `crosshairSize` and `showSpeedometer`.
 
 Movement itself is simulated by each player's own client (Minecraft trusts the client for player
 movement), with the server checking the result as usual.

@@ -30,10 +30,10 @@ public final class HLModeClient {
 	/** On joining a world: start in the mode we were last in, and tell the server. */
 	public static void join(Minecraft minecraft) {
 		if (minecraft.player != null) {
-			apply(minecraft, minecraft.player.getUUID(), HLConfig.hlMode);
+			apply(minecraft, minecraft.player.getUUID(), HLConfig.hlMode, HLConfig.character);
 		}
 
-		request(HLConfig.hlMode);
+		request();
 	}
 
 	/** The player's own switch (key or settings screen). */
@@ -48,28 +48,39 @@ public final class HLModeClient {
 		}
 
 		// Switch straight away instead of waiting for the server to confirm.
-		apply(minecraft, minecraft.player.getUUID(), on);
-		request(on);
+		apply(minecraft, minecraft.player.getUUID(), on, HLConfig.character);
+		request();
 		minecraft.player.sendOverlayMessage(Component.translatable(on ? "hlmovement.mode.on" : "hlmovement.mode.off"));
 	}
 
+	/** The player's own choice of character (settings screen). */
+	public static void setCharacter(Minecraft minecraft, String character) {
+		HLConfig.character = HLMode.validCharacter(character);
+		HLConfig.save();
+		if (minecraft.player != null && HLConfig.hlMode) {
+			apply(minecraft, minecraft.player.getUUID(), true, HLConfig.character);
+			request();
+		}
+	}
+
 	public static void receive(ModeStatePayload payload, Minecraft minecraft) {
-		if (minecraft.player != null && payload.player().equals(minecraft.player.getUUID()) && payload.on() != HLConfig.hlMode) {
-			// A stale confirmation of an earlier request; the one for our current choice is on its way.
+		if (minecraft.player != null && payload.player().equals(minecraft.player.getUUID())) {
+			// We already switched ourselves; a confirmation that differs is of an earlier request.
 			return;
 		}
 
-		apply(minecraft, payload.player(), payload.on());
+		apply(minecraft, payload.player(), payload.on(), payload.character());
 	}
 
-	private static void request(boolean on) {
+	private static void request() {
 		if (ClientPlayNetworking.canSend(ModeRequestPayload.TYPE)) {
-			ClientPlayNetworking.send(new ModeRequestPayload(on));
+			ClientPlayNetworking.send(new ModeRequestPayload(HLConfig.hlMode, HLConfig.character));
 		}
 	}
 
-	private static void apply(Minecraft minecraft, UUID id, boolean on) {
-		if (!HLMode.set(true, id, on) || minecraft.level == null) {
+	private static void apply(Minecraft minecraft, UUID id, boolean on, String character) {
+		boolean wasOn = HLMode.players(true).containsKey(id);
+		if (!HLMode.set(true, id, on, character) || wasOn == on || minecraft.level == null) {
 			return;
 		}
 

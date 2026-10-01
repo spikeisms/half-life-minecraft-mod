@@ -25,6 +25,7 @@ import java.util.*;
  * Output: hlmodels/<name>.bin and textures/entity/<name>/<texture>.png
  */
 public class MdlConvert {
+	static final int CHROME = 0x02;
 	static final int MASKED = 0x40;
 	static final int STUDIO_LOOPING = 1;
 
@@ -296,6 +297,7 @@ public class MdlConvert {
 					int skin = tex.getShort(skinIndex + hdr.getInt(mesh + 8) * 2); // skin family 0
 					int t = texIndex + skin * 80;
 					float sw = 1F / tex.getInt(t + 68), th = 1F / tex.getInt(t + 72);
+					boolean chrome = (tex.getInt(t + 64) & CHROME) != 0;
 					List<Vertex> tris = out.computeIfAbsent(skin, k -> new ArrayList<>());
 					int cmd = hdr.getInt(mesh + 4);
 					int count;
@@ -306,8 +308,12 @@ public class MdlConvert {
 						Vertex[] strip = new Vertex[count];
 						for (int i = 0; i < count; i++, cmd += 8) {
 							int vi = hdr.getShort(cmd), ni = hdr.getShort(cmd + 2);
-							strip[i] = new Vertex(hdr.get(vertInfo + vi) & 0xFF, hdr.get(normInfo + ni) & 0xFF,
-								vec(hdr, vertIndex + vi * 12), vec(hdr, normIndex + ni * 12), hdr.getShort(cmd + 4) * sw, hdr.getShort(cmd + 6) * th);
+							float[] normal = vec(hdr, normIndex + ni * 12);
+							// Chrome is mapped from the view at draw time in Half-Life; here it's fixed to the surface,
+							// which keeps the shine without the movement.
+							float u = chrome ? 0.5F + 0.5F * normal[1] : hdr.getShort(cmd + 4) * sw;
+							float v = chrome ? 0.5F - 0.5F * normal[2] : hdr.getShort(cmd + 6) * th;
+							strip[i] = new Vertex(hdr.get(vertInfo + vi) & 0xFF, hdr.get(normInfo + ni) & 0xFF, vec(hdr, vertIndex + vi * 12), normal, u, v);
 						}
 						for (int i = 2; i < count; i++) {
 							if (fan) Collections.addAll(tris, strip[0], strip[i - 1], strip[i]);

@@ -18,8 +18,6 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.RandomSource;
 
-import java.util.UUID;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -48,14 +46,12 @@ public class HLMovement implements ModInitializer {
 
 			// Everyone in Half-Life mode simulates with the server's settings.
 			sender.sendPacket(new ConfigSyncPayload(HLConfig.serializeSynced()));
-			for (UUID id : HLMode.players(false)) {
-				sender.sendPacket(new ModeStatePayload(id, true));
-			}
+			HLMode.players(false).forEach((id, character) -> sender.sendPacket(new ModeStatePayload(id, true, character)));
 		});
 
 		// Players choose Half-Life mode for themselves; their client asks on join and whenever they toggle it.
-		ServerPlayNetworking.registerGlobalReceiver(ModeRequestPayload.TYPE, (payload, context) -> setMode(context.server(), context.player(), payload.on()));
-		ServerPlayConnectionEvents.DISCONNECT.register((handler, server) -> setMode(server, handler.player, false));
+		ServerPlayNetworking.registerGlobalReceiver(ModeRequestPayload.TYPE, (payload, context) -> setMode(context.server(), context.player(), payload.on(), payload.character()));
+		ServerPlayConnectionEvents.DISCONNECT.register((handler, server) -> setMode(server, handler.player, false, HLMode.DEFAULT_CHARACTER));
 		ServerLifecycleEvents.SERVER_STOPPED.register(server -> HLMode.players(false).clear());
 
 		ServerTickEvents.END_SERVER_TICK.register(HLMovement::tickPlayerSounds);
@@ -63,16 +59,20 @@ public class HLMovement implements ModInitializer {
 		LOGGER.info("Half-Life movement loaded");
 	}
 
-	private static void setMode(MinecraftServer server, ServerPlayer player, boolean on) {
-		if (!HLMode.set(false, player.getUUID(), on)) {
+	private static void setMode(MinecraftServer server, ServerPlayer player, boolean on, String character) {
+		boolean wasOn = HLMode.isOn(player);
+		if (!HLMode.set(false, player.getUUID(), on, character)) {
 			return;
 		}
 
-		((HLDuck.Holder) player).hlmovement$duckState().reset();
-		((HLSoundEngine.Holder) player).hlmovement$soundState().reset();
-		// The duck hull differs between the modes.
-		player.refreshDimensions();
-		ModeStatePayload payload = new ModeStatePayload(player.getUUID(), on);
+		if (wasOn != on) {
+			((HLDuck.Holder) player).hlmovement$duckState().reset();
+			((HLSoundEngine.Holder) player).hlmovement$soundState().reset();
+			// The duck hull differs between the modes.
+			player.refreshDimensions();
+		}
+
+		ModeStatePayload payload = new ModeStatePayload(player.getUUID(), on, HLMode.character(player));
 		for (ServerPlayer other : PlayerLookup.all(server)) {
 			if (ServerPlayNetworking.canSend(other, ModeStatePayload.TYPE)) {
 				ServerPlayNetworking.send(other, payload);
