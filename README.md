@@ -1,9 +1,7 @@
-# Half-Life Movement (Fabric, Minecraft 26.3)
+# Half-Life Character Mod
+**For Minecraft 1.23.6**
 
-Lets each player switch themselves into **Half-Life mode**: Half-Life 1's movement and player sounds
-(a port of `pm_shared.c` and `player.cpp` from Valve's Half-Life SDK), its HUD, and the scientist as
-their player model. Everyone else on the server stays an ordinary Minecraft player. Built for one private
-server: **the mod is required on the server and on every client** (the server turns away players without it).
+HLCM (Half-Life Character Mod) adds a toggle to the game that lets any player turn into a Half-Life character! The movement code from Half-Life 1 is translated over as accurately as possible, along with multiple playermodels, a fully translated in-game HUD, and plenty of server CVars that let you change how it all feels! This mod should be fully compatible with other mods: but for other character-changing gameplay mods, general discretion is advised: be smart, don't try to stack player mods. You can't be Mario and Gordon simultaneously. Don't be greedy.
 
 ## Half-Life mode
 
