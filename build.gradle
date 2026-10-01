@@ -30,6 +30,15 @@ loom {
 			runDir "build/run/clientGameTest"
 		}
 
+		// The scripted demo for recording a showcase video (src/client/java/com/hlmovement/client/test/Showcase.java).
+		showcase {
+			inherit client
+			configName = "Showcase"
+			vmArg "-Dfabric.client.gametest"
+			vmArg "-Dhlmovement.showcase=true"
+			runDir "build/run/showcase"
+		}
+
 		// Local two-player test: gradlew runServer, then runPlayer1 and runPlayer2 (each joins localhost).
 		// The server needs build/run/server/eula.txt, and online-mode=false in its server.properties.
 		server {

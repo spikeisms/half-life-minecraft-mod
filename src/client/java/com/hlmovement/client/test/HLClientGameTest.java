@@ -37,6 +37,12 @@ public class HLClientGameTest implements FabricClientGameTest {
 
 	@Override
 	public void runTest(ClientGameTestContext context) {
+		if (Boolean.getBoolean("hlmovement.showcase")) {
+			// gradlew runShowcase: the scripted demo for recording, instead of the checks.
+			Showcase.run(context);
+			return;
+		}
+
 		List<String> sounds = new CopyOnWriteArrayList<>();
 		SoundEventListener listener = (sound, events, range) -> sounds.add(sound.getIdentifier().toString());
 

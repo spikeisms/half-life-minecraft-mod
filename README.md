@@ -162,3 +162,10 @@ numbers against Half-Life (run 320 u/s, duck 106.6 u/s, jump 45 units, duck-jump
 noclip 320 u/s through a wall, spectator 400 u/s, duck hull and noclip agreed by client and server,
 sounds), then switches Half-Life mode off and checks that movement, sneaking, footsteps, HUD and model are
 Minecraft's again on both sides, and back on. Results are logged with the prefix `[HL TEST]`.
+
+## Showcase recording
+
+`gradlew runShowcase` plays a scripted demo on a small stage in a fresh world (`Showcase.java`): the same moves
+every time, so a take can be reshot exactly. Each segment logs `[SHOWCASE] <name> <wall-clock ms>` for cutting.
+It waits 8 seconds after `[SHOWCASE] ready` for a recorder to start. The bunnyhop segment turns on `autoBhop`
+for its duration, because a script ticking 20 times a second can't time jumps to the landing frame.

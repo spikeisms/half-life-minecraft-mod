@@ -42,3 +42,7 @@ replay_*.log
 # local backups
 
 backups/
+
+# recorded showcase clips
+
+showcase/
