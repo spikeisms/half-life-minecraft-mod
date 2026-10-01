@@ -3,9 +3,9 @@
 	"id": "hlmovement",
 	"version": "${version}",
 	"name": "Half-Life Movement",
-	"description": "Replaces player movement with a port of Half-Life 1's player physics: ground/air acceleration, friction, air-strafing, bunnyhopping, crouch-jumping, ladders, swimming and fall damage.",
+	"description": "Play Minecraft as a Half-Life character. Each player can switch into Half-Life mode: Half-Life 1's movement (air-strafing, bunnyhopping, crouch-jumping), sounds and HUD, as the scientist, Gordon or Barney. Needed on the server and on every client.",
 	"authors": [
-		"Me!"
+		"spikeisms"
 	],
 	"contact": {},
 	"license": "CC0-1.0",
