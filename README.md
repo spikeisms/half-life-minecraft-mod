@@ -25,7 +25,7 @@ spectator flight, sounds, HUD and skin. Everything below describes players who a
 | `PM_Jump` | 45-unit jump (268 u/s), no friction on the landing frame → bunnyhopping. Jump must be re-pressed (no pogo) |
 | `PM_PreventMegaBunnyJumping` | Jumping above 1.7× maxspeed scales you back down (toggle: `bunnyhopCap`) |
 | `PM_CheckParamters` + `PM_Duck` | Move command clamped to maxspeed, *then* ×0.333 when ducked → 106.6 u/s |
-| `PM_Duck` / `PM_UnDuck` | Ducking takes 0.4 s on the ground; instant in the air, where the hull shrinks around its center (crouch-jump: 63 units). Half-height duck hull (0.9 blocks) fits through 1-block gaps |
+| `PM_Duck` / `PM_UnDuck` | Ducking takes 0.4 s on the ground, with the view sinking smoothly from the moment the key goes down; instant in the air, where the hull shrinks around its center (crouch-jump: 63 units). Half-height duck hull (0.9 blocks) fits through 1-block gaps |
 | `+speed` | Walk key (default **Left Alt**) ×0.3 |
 | `PM_LadderMove` | View-relative climbing at 200 u/s, look down to descend, jump pushes you off |
 | `PM_WaterMove` / `PM_CheckWaterJump` | 3D swimming, slow sink, jump swims up, auto-hop out at ledges |
@@ -115,7 +115,9 @@ player animations the way Half-Life's player code does it (`CBasePlayer::SetAnim
 - Held items are drawn in his hands (main hand and offhand) with Minecraft's own item rendering, and an
   attack swings that arm from the shoulder.
 - Jumping plays `jump` once on the whole body and holds the end until landing (walking off a ledge doesn't
-  count; a bunnyhop restarts it).
+  count; a bunnyhop restarts it). It's triggered by starting to rise in mid-air, which works the same for
+  other players as for yourself.
+- The crouch animation starts as the duck key goes down, with the view, not 0.4 s later with the hitbox.
 - Changes cross-fade over 0.2 s.
 
 The scientist NPC has no player animations, so the converter borrows them from the multiplayer scientist

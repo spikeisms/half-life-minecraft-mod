@@ -80,6 +80,9 @@ public class HLClientGameTest implements FabricClientGameTest {
 			input.holdKey(o -> o.keyShift);
 			context.waitTicks(4);
 			check(context.computeOnClient(mc -> mc.player.getPose()) == Pose.STANDING, "still standing 0.2 s into the duck");
+			double midDuckEye = context.computeOnClient(mc -> (double) mc.player.getEyeHeight());
+			report("eye height 0.2 s into the duck", midDuckEye, 1.185);
+			check(midDuckEye > 0.8 && midDuckEye < 1.5, "the view is already sinking 0.2 s into the duck (eye height " + midDuckEye + ")");
 			context.waitTicks(8);
 			check(context.computeOnClient(mc -> mc.player.getPose()) == Pose.CROUCHING, "ducked after 0.4 s");
 			double clientHeight = context.computeOnClient(mc -> mc.player.getBbHeight());

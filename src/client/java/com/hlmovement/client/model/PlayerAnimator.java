@@ -52,8 +52,9 @@ public final class PlayerAnimator {
 
 	private @Nullable HLModel lastModel;
 	private float lastTime = Float.NaN;
-	private boolean wasOnGround = true;
 	private boolean wasRising;
+	/** Has come down since the jump animation started, so rising again is a new jump. */
+	private boolean hasFallen;
 	private boolean jumping;
 	private @Nullable String body;
 	private float bodyFrame;
@@ -91,24 +92,32 @@ public final class PlayerAnimator {
 		float blocksPerTick = (float) Math.sqrt(dx * dx + dz * dz);
 		float speed = blocksPerTick * 20.0F * (float) HLConfig.unitsPerBlock;
 		boolean moving = speed >= MOVE_SPEED;
-		boolean ducked = entity.getPose() == Pose.CROUCHING;
-
-		// Only a jump starts the jump animation (walking off a ledge keeps the legs going), and it lasts
-		// until something is underfoot again.
 		boolean onGround = entity.onGround();
-		boolean supported = onGround || entity.isInWater() || entity.onClimbable() || entity.isPassenger()
+		// The crouch starts as the duck key goes down, like the view does, not 0.4 s later with the hull.
+		boolean ducked = entity.getPose() == Pose.CROUCHING || entity.isShiftKeyDown() && onGround;
+
+		// Starting to rise in mid-air starts the jump animation (walking off a ledge keeps the legs going),
+		// and it lasts until something is underfoot again. This only looks at the air: another player's
+		// "on the ground" flag and their smoothed position don't change in the same frame.
+		boolean supported = onGround || entity.isInWater() || entity.onClimbable() || entity.isPassenger() || entity.isFallFlying()
 			|| entity instanceof Player player && player.getAbilities().flying;
-		boolean rising = entity.getY() - entity.yo > 0.05;
+		double rise = entity.getY() - entity.yo;
+		boolean rising = !supported && rise > 0.05;
 		boolean jumped = false;
 		if (supported) {
 			jumping = false;
-		} else if (rising && !wasRising && (wasOnGround || jumping)) {
-			// Leaving the ground upwards, or (bunnyhopping) bouncing straight back up without a frame on it.
-			jumping = true;
-			jumped = true;
+			hasFallen = false;
+		} else {
+			if (rise < -0.05) hasFallen = true;
+			// A new jump, or (bunnyhopping) bouncing straight back up without a frame on the ground. A pause
+			// in the rise on the way up isn't one.
+			if (rising && !wasRising && (!jumping || hasFallen)) {
+				jumping = true;
+				jumped = true;
+				hasFallen = false;
+			}
 		}
 
-		wasOnGround = onGround;
 		wasRising = rising;
 
 		float viewYaw = Mth.rotLerp(partialTicks, entity.yHeadRotO, entity.yHeadRot);

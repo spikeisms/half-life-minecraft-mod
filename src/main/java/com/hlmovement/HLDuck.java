@@ -1,5 +1,7 @@
 package com.hlmovement;
 
+import com.hlmovement.mixin.EntityEyeHeightAccessor;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.EntityAttachment;
 import net.minecraft.world.entity.EntityAttachments;
 import net.minecraft.world.entity.EntityDimensions;
@@ -11,7 +13,8 @@ import net.minecraft.world.phys.Vec3;
 
 /**
  * Half-Life ducking (PM_Duck / PM_UnDuck), replacing Minecraft's instant sneak pose:
- * - on the ground, ducking takes TIME_TO_DUCK (0.4 s) before the duck hull and speed penalty apply;
+ * - on the ground, ducking takes TIME_TO_DUCK (0.4 s) before the duck hull and speed penalty apply, and
+ *   the view sinks smoothly over that time, starting the moment the key goes down;
  * - in the air it's instant and the hull shrinks around its center, so the feet come up
  *   (the crouch-jump), and un-ducking in the air drops the feet back down;
  * - un-ducking is refused while there's no room.
@@ -27,6 +30,8 @@ public final class HLDuck {
 	public static final class State {
 		int duckTimeMs;
 		boolean inDuck;
+		/** The view is part-way down for a duck that hasn't finished. */
+		boolean viewLowered;
 
 		public void reset() {
 			this.duckTimeMs = 0;
@@ -47,7 +52,9 @@ public final class HLDuck {
 	 */
 	public static boolean updatePose(Player player) {
 		if (!HLMode.isOn(player)) {
-			((Holder) player).hlmovement$duckState().reset();
+			State state = ((Holder) player).hlmovement$duckState();
+			restoreView(player, state);
+			state.reset();
 			return false;
 		}
 
@@ -61,6 +68,7 @@ public final class HLDuck {
 		State s = ((Holder) player).hlmovement$duckState();
 		if (player.isSleeping() || player.isSwimming() || player.isFallFlying() || player.isAutoSpinAttack() || player.getAbilities().flying
 			|| player.isPassenger() || player.isSpectator() || !player.isAlive() || !fits(player, Pose.SWIMMING, 0.0)) {
+			restoreView(player, s);
 			s.reset();
 			return false;
 		}
@@ -118,8 +126,29 @@ public final class HLDuck {
 			pose = Pose.SWIMMING;
 		}
 
+		if (pose == Pose.STANDING && s.inDuck) {
+			// PM_Duck: while the duck is in progress the hull is still standing but the view is already on
+			// its way down, eased with PM_SplineFraction, so it arrives as the hull changes.
+			float t = Mth.clamp((1000 - s.duckTimeMs) / (float) (HLConfig.duckTime * 1000.0), 0.0F, 1.0F);
+			float fraction = 3.0F * t * t - 2.0F * t * t * t;
+			float standingView = player.getDimensions(Pose.STANDING).eyeHeight();
+			float duckView = player.getDimensions(Pose.CROUCHING).eyeHeight();
+			((EntityEyeHeightAccessor) player).hlmovement$setEyeHeight(Mth.lerp(fraction, standingView, duckView));
+			s.viewLowered = true;
+		} else {
+			restoreView(player, s);
+		}
+
 		player.setPose(pose);
 		return true;
+	}
+
+	/** Puts the view back where the current pose has it, after a duck that was abandoned part-way. */
+	private static void restoreView(Player player, State s) {
+		if (s.viewLowered) {
+			s.viewLowered = false;
+			((EntityEyeHeightAccessor) player).hlmovement$setEyeHeight(player.getDimensions(player.getPose()).eyeHeight());
+		}
 	}
 
 	private static boolean fits(Player player, Pose pose, double dy) {
