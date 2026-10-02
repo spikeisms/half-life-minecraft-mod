@@ -25,7 +25,7 @@ import java.util.Set;
  * their values (except the client-only keys) until they disconnect.
  */
 public final class HLConfig {
-	private static final int CURRENT_VERSION = 2;
+	private static final int CURRENT_VERSION = 3;
 	/** Personal settings that are never taken from the server. */
 	private static final Set<String> CLIENT_ONLY = Set.of("configVersion", "hlMode", "character", "showSpeedometer", "hudScale", "crosshairSize");
 
@@ -75,8 +75,8 @@ public final class HLConfig {
 	// --- Behaviour switches ---
 	/** PM_PreventMegaBunnyJumping: jumping above 1.7x maxspeed scales you down to 1.105x. */
 	public static boolean bunnyhopCap = true;
-	/** Allow holding jump to hop. Half-Life requires releasing jump between hops. */
-	public static boolean autoBhop = false;
+	/** Holding jump keeps hopping. Off is Half-Life's own rule: jump must be released between hops. */
+	public static boolean autoBhop = true;
 	/** Mid-air ducking pulls the legs up (the Half-Life crouch-jump). */
 	public static boolean airDuckTuck = true;
 	/** Half-Life's duck hull: half the standing height (0.9 blocks), eyes 0.75 blocks up. */
@@ -126,6 +126,11 @@ public final class HLConfig {
 		if (configVersion < 2) {
 			// v1 defaulted to the Source-style stair snap, which Half-Life 1 doesn't have.
 			stepDown = false;
+		}
+
+		if (configVersion < 3) {
+			// v2 defaulted to Half-Life's "release jump between hops"; holding jump to hop is now the default.
+			autoBhop = true;
 		}
 
 		configVersion = CURRENT_VERSION;

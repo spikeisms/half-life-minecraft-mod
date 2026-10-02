@@ -20,7 +20,7 @@ spectator flight, sounds, HUD and skin. Everything below describes players who a
 | `PM_Accelerate` / `PM_Friction` | Ground accel `sv_accelerate 10`, friction `sv_friction 4`, `sv_stopspeed 100`, run speed `sv_maxspeed 320` |
 | `sv_edgefriction 2` | Double friction when about to run off a drop (same hull trace as HL) |
 | `PM_AirAccelerate` | `sv_airaccelerate 10` with the 30 u/s wishspeed cap → air-strafing |
-| `PM_Jump` | 45-unit jump (268 u/s), no friction on the landing frame → bunnyhopping. Jump must be re-pressed (no pogo) |
+| `PM_Jump` | 45-unit jump (268 u/s), no friction on the landing frame → bunnyhopping. Holding jump keeps hopping by default (`autoBhop`); turn it off for Half-Life's own rule that jump must be re-pressed (no pogo) |
 | `PM_PreventMegaBunnyJumping` | Jumping above 1.7× maxspeed scales you back down (toggle: `bunnyhopCap`) |
 | `PM_CheckParamters` + `PM_Duck` | Move command clamped to maxspeed, *then* ×0.333 when ducked → 106.6 u/s |
 | `PM_Duck` / `PM_UnDuck` | Ducking takes 0.4 s on the ground, with the view sinking smoothly from the moment the key goes down; instant in the air, where the hull shrinks around its center (crouch-jump: 63 units). Half-height duck hull (0.9 blocks) fits through 1-block gaps |
@@ -167,5 +167,5 @@ Minecraft's again on both sides, and back on. Results are logged with the prefix
 
 `gradlew runShowcase` plays a scripted demo on a small stage in a fresh world (`Showcase.java`): the same moves
 every time, so a take can be reshot exactly. Each segment logs `[SHOWCASE] <name> <wall-clock ms>` for cutting.
-It waits 8 seconds after `[SHOWCASE] ready` for a recorder to start. The bunnyhop segment turns on `autoBhop`
+It waits 8 seconds after `[SHOWCASE] ready` for a recorder to start. The bunnyhop segment makes sure `autoBhop` is on
 for its duration, because a script ticking 20 times a second can't time jumps to the landing frame.
